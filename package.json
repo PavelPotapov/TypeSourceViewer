@@ -1,5 +1,5 @@
 {
-  "name": "storybook-type-viewer",
+  "name": "type-source-viewer",
   "version": "0.1.0",
   "description": "Extract TypeScript type definitions as strings at build time. Show any type in Storybook.",
   "type": "module",
@@ -45,6 +45,16 @@
   ],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PavelPotapov/type-source-viewer"
+  },
+  "files": [
+    "dist",
+    "src/virtual-type-strings.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "packageManager": "pnpm@10.24.0",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
