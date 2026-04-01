@@ -1,0 +1,28 @@
+import { Meta } from '@storybook/blocks';
+import { TypeSourceViewer } from '../src/integrations/storybook/TypeSourceViewer';
+
+<Meta title="Examples/MDX Docs/Table API" />
+
+# Table API
+
+Demonstrates extracting generic and complex types for documentation.
+
+## TableColumn\<T\>
+
+A generic column definition that adapts to any row data type:
+
+<TypeSourceViewer
+  filePath="./stories/fixtures/sample-types.ts"
+  typeName="TableColumn"
+  language="tsx"
+/>
+
+## FormFieldConfig
+
+A discriminated union type — notice how each variant is clearly visible:
+
+<TypeSourceViewer
+  filePath="./stories/fixtures/sample-types.ts"
+  typeName="FormFieldConfig"
+  language="tsx"
+/>

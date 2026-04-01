@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/blocks';
+import { TypeSourceViewer } from '../src/integrations/storybook/TypeSourceViewer';
+
+<Meta title="Examples/MDX Docs/Button API" />
+
+# Button API
+
+This page demonstrates how `TypeSourceViewer` can be used in MDX documentation
+to automatically display TypeScript type definitions alongside your text.
+
+This is the primary use case: you write documentation in MDX, and the types
+are always up-to-date because they are extracted directly from your source code.
+
+## ButtonProps
+
+Main props interface for the Button component:
+
+<TypeSourceViewer
+  filePath="./stories/fixtures/sample-types.ts"
+  typeName="ButtonProps"
+  language="tsx"
+/>
+
+## ReadonlyButtonProps
+
+A read-only version of the button props (without click handler):
+
+<TypeSourceViewer
+  filePath="./stories/fixtures/sample-types.ts"
+  typeName="ReadonlyButtonProps"
+  language="tsx"
+/>

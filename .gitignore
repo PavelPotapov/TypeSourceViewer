@@ -2,3 +2,13 @@ node_modules/
 dist/
 *.tgz
 .DS_Store
+
+# Claude Code
+.claude/
+
+# Playwright MCP
+.playwright-mcp/
+
+# Debug logs
+debug-storybook.log
+*.log

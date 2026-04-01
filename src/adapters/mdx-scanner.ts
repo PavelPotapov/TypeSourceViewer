@@ -58,6 +58,24 @@ function collectFromFunction(fileContent: string, sourceFile: string): ScanResul
   return results;
 }
 
+/** Extracts filePath and typeName from CSF story args (e.g. args: { filePath: '...', typeName: '...' }). */
+function collectFromCsfArgs(fileContent: string, sourceFile: string): ScanResult[] {
+  const results: ScanResult[] = [];
+  const argsPattern = /args\s*:\s*\{[^}]*\}/gs;
+  const matches = [...fileContent.matchAll(argsPattern)].map((m) => m[0]);
+
+  for (const match of matches) {
+    const filePathMatch = match.match(/filePath\s*:\s*['"]([^'"]+)['"]/);
+    const typeNameMatch = match.match(/typeName\s*:\s*['"]([^'"]+)['"]/);
+
+    if (filePathMatch?.[1] && typeNameMatch?.[1]) {
+      results.push({ filePath: filePathMatch[1], typeName: typeNameMatch[1], sourceFile });
+    }
+  }
+
+  return results;
+}
+
 /** Recursively walks a directory and collects scan results. */
 function walkDirectory(dir: string, extensions: string[]): ScanResult[] {
   const results: ScanResult[] = [];
@@ -80,6 +98,9 @@ function walkDirectory(dir: string, extensions: string[]): ScanResult[] {
     }
     if (content.includes(`${FUNC_NAME}(`)) {
       results.push(...collectFromFunction(content, itemPath));
+    }
+    if (content.includes('filePath') && content.includes('typeName')) {
+      results.push(...collectFromCsfArgs(content, itemPath));
     }
   }
 

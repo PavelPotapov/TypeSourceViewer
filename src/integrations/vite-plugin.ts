@@ -1,4 +1,5 @@
 import type { Plugin } from 'vite';
+import { resolve } from 'path';
 import { parseTypeFromContent } from '../core/parser';
 import { createNodeFileReader } from '../adapters/node-file-reader';
 import { createMdxScanner } from '../adapters/mdx-scanner';
@@ -11,6 +12,8 @@ const DEFAULT_EXTENSIONS = ['.md', '.mdx', '.js', '.jsx', '.ts', '.tsx'];
 interface TypeViewerPluginOptions {
   /** Directory containing Storybook files to scan */
   storybookDir: string;
+  /** Project root for resolving relative filePaths. Defaults to process.cwd(). */
+  root?: string;
   /** File extensions to scan. Defaults to common web extensions. */
   extensions?: string[];
 }
@@ -22,7 +25,7 @@ interface TypeViewerPluginOptions {
  * Supports HMR — when .ts files change, the virtual module is invalidated.
  */
 export function typeViewerPlugin(options: TypeViewerPluginOptions): Plugin {
-  const { storybookDir, extensions = DEFAULT_EXTENSIONS } = options;
+  const { storybookDir, root = process.cwd(), extensions = DEFAULT_EXTENSIONS } = options;
 
   const generateTypeMap = (): TypeMap => {
     const fileReader = createNodeFileReader();
@@ -31,10 +34,12 @@ export function typeViewerPlugin(options: TypeViewerPluginOptions): Plugin {
     const typeMap: TypeMap = {};
 
     for (const { filePath, typeName } of usages) {
-      if (!fileReader.exists(filePath)) continue;
+      const resolvedPath = resolve(root, filePath);
+
+      if (!fileReader.exists(resolvedPath)) continue;
 
       const key = `${filePath}$$$${typeName}`;
-      const content = fileReader.read(filePath);
+      const content = fileReader.read(resolvedPath);
       const definition = parseTypeFromContent(content, typeName);
 
       if (definition) {
