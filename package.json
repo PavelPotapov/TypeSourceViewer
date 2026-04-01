@@ -44,7 +44,7 @@
     "addon",
     "vite-plugin"
   ],
-  "author": "",
+  "author": "Pavel Potapov",
   "license": "MIT",
   "repository": {
     "type": "git",
